@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block title %}All complaints{% endblock %}
+{% block content %}
+  <h1>All complaints</h1>
+
+  <form method="get" class="filter-form">
+    <label>Status
+      <select name="status">
+        <option value="">All</option>
+        {% for s in statuses %}
+          <option value="{{ s }}" {% if filters.status == s %}selected{% endif %}>{{ s }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>Category
+      <select name="category">
+        <option value="">All</option>
+        {% for c in categories %}
+          <option value="{{ c }}" {% if filters.category == c %}selected{% endif %}>{{ c }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>Priority
+      <select name="priority">
+        <option value="">All</option>
+        {% for p in priorities %}
+          <option value="{{ p }}" {% if filters.priority == p %}selected{% endif %}>{{ p }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>Room
+      <input type="text" name="room_number" value="{{ filters.room_number }}">
+    </label>
+    <button type="submit">Filter</button>
+    <a href="{{ url_for('staff.list_complaints') }}">Clear</a>
+  </form>
+
+  {% if complaints %}
+    <table>
+      <thead>
+        <tr>
+          <th>#</th><th>Student</th><th>Category</th><th>Priority</th><th>Room</th>
+          <th>Status</th><th>Description</th><th>Submitted</th><th>Resolved</th><th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for c in complaints %}
+          <tr>
+            <td>{{ c['id'] }}</td>
+            <td>{{ c['student_name'] }}</td>
+            <td>{{ c['category'] }}</td>
+            <td>{{ c['priority'] }}</td>
+            <td>{{ c['room_number'] }}</td>
+            <td><span class="status status-{{ c['status'] }}">{{ c['status'] }}</span></td>
+            <td>{{ c['description'] }}</td>
+            <td>{{ c['created_at'] }}</td>
+            <td>{{ c['resolved_at'] or '-' }}</td>
+            <td><a href="{{ url_for('staff.update_complaint', complaint_id=c['id']) }}">Manage</a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No complaints match these filters.</p>
+  {% endif %}
+{% endblock %}

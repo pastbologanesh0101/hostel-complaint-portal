@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Welcome{% endblock %}
+{% block content %}
+  <h1>Hostel Complaint Portal</h1>
+  <p>Report and track maintenance issues in your hostel/dormitory.</p>
+  <div class="card-row">
+    <div class="card">
+      <h2>Students</h2>
+      <p>Submit complaints (electrical, plumbing, furniture, cleanliness, internet, other) and track their status.</p>
+      <a class="button" href="{{ url_for('student.login') }}">Student login</a>
+      <a class="button secondary" href="{{ url_for('student.register') }}">Register</a>
+    </div>
+    <div class="card">
+      <h2>Staff</h2>
+      <p>Review all complaints, update status/notes, and view resolution analytics.</p>
+      <a class="button" href="{{ url_for('staff.login') }}">Staff login</a>
+      <p class="hint">Default admin account: <code>admin</code> / <code>admin123</code></p>
+    </div>
+  </div>
+{% endblock %}

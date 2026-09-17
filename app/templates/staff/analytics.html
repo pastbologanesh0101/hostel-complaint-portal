@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Analytics{% endblock %}
+{% block content %}
+  <h1>Analytics</h1>
+
+  <div class="card-row">
+    <div class="card">
+      <h2>Average resolution time</h2>
+      {% if avg_resolution_hours is not none %}
+        <p class="stat">{{ avg_resolution_hours }} hours</p>
+        <p class="hint">Based on {{ resolved_count }} resolved complaint(s).</p>
+      {% else %}
+        <p>No resolved complaints yet.</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <h2>Count by category</h2>
+  <table>
+    <thead><tr><th>Category</th><th>Count</th></tr></thead>
+    <tbody>
+      {% for row in by_category %}
+        <tr><td>{{ row['category'] }}</td><td>{{ row['count'] }}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <h2>Count by status</h2>
+  <table>
+    <thead><tr><th>Status</th><th>Count</th></tr></thead>
+    <tbody>
+      {% for row in by_status %}
+        <tr><td>{{ row['status'] }}</td><td>{{ row['count'] }}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

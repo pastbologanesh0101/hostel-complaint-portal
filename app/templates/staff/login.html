@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Staff login{% endblock %}
+{% block content %}
+  <h1>Staff login</h1>
+  <form method="post" class="form">
+    <label>Username
+      <input type="text" name="username" required>
+    </label>
+    <label>Password
+      <input type="password" name="password" required>
+    </label>
+    <button type="submit">Log in</button>
+  </form>
+  <p class="hint">Default admin account: <code>admin</code> / <code>admin123</code></p>
+{% endblock %}

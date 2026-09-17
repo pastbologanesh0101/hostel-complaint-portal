@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Manage complaint #{{ complaint['id'] }}{% endblock %}
+{% block content %}
+  <h1>Complaint #{{ complaint['id'] }}</h1>
+  <dl>
+    <dt>Student</dt><dd>{{ complaint['student_name'] }}</dd>
+    <dt>Room</dt><dd>{{ complaint['room_number'] }}</dd>
+    <dt>Category</dt><dd>{{ complaint['category'] }}</dd>
+    <dt>Priority</dt><dd>{{ complaint['priority'] }}</dd>
+    <dt>Description</dt><dd>{{ complaint['description'] }}</dd>
+    <dt>Submitted</dt><dd>{{ complaint['created_at'] }}</dd>
+    <dt>Resolved</dt><dd>{{ complaint['resolved_at'] or '-' }}</dd>
+  </dl>
+
+  <form method="post" class="form">
+    <label>Status
+      <select name="status">
+        {% for s in statuses %}
+          <option value="{{ s }}" {% if complaint['status'] == s %}selected{% endif %}>{{ s }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>Staff notes
+      <textarea name="staff_notes" rows="4">{{ complaint['staff_notes'] or '' }}</textarea>
+    </label>
+    <button type="submit">Update</button>
+  </form>
+  <p><a href="{{ url_for('staff.list_complaints') }}">Back to all complaints</a></p>
+{% endblock %}

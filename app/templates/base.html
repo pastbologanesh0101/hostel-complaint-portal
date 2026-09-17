@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Hostel Complaint Portal{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="{{ url_for('auth.choose_login') }}">Hostel Complaint Portal</a>
+    <nav>
+      {% if session.get('user_type') == 'student' %}
+        <span>Hi, {{ session.get('display_name') }}</span>
+        <a href="{{ url_for('student.new_complaint') }}">New complaint</a>
+        <a href="{{ url_for('student.my_complaints') }}">My complaints</a>
+        <a href="{{ url_for('student.logout') }}">Log out</a>
+      {% elif session.get('user_type') == 'staff' %}
+        <span>Staff: {{ session.get('display_name') }}</span>
+        <a href="{{ url_for('staff.list_complaints') }}">All complaints</a>
+        <a href="{{ url_for('staff.analytics') }}">Analytics</a>
+        <a href="{{ url_for('staff.logout') }}">Log out</a>
+      {% else %}
+        <a href="{{ url_for('student.login') }}">Student login</a>
+        <a href="{{ url_for('student.register') }}">Student register</a>
+        <a href="{{ url_for('staff.login') }}">Staff login</a>
+      {% endif %}
+    </nav>
+  </header>
+
+  <main class="container">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class="flashes">
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>
